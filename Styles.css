@@ -51,3 +51,18 @@
     margin-top: 0px;
     background-color: none;
     }
+
+.todo{
+        background-color: #3c71c0;
+        border: none;
+        color: rgb(252, 252, 252);
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        margin-left: 625px;
+        margin-top: 5px;
+        cursor: pointer;
+        border-radius: 18px;
+    }

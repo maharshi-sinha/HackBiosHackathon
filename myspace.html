@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>READ LOFI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="Styles.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+<style>@import url(https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css);</style>
+  
+</head>
+
+<body>
+  <!---Header--->
+  <header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+        <a href="#"><img src="Assets/header.gif" alt="logo" class="w-9 h-9 "></a>
+
+      <a href="landing.html">  <span class="ml-3 font-semibold text-white text-xl">BRO-CODES</span></a>
+      </a>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <a href="buy_rent.html" class="mr-5 hover:text-white">Buy/Rent</a>
+        <a href="Event_1.html" class="mr-5 hover:text-white">Events</a>
+        <a href="library.html" class="mr-5 hover:text-white">Library near me</a>
+        <a href="myspace.html" class="mr-5 hover:text-white">My Space</a>
+      </nav>
+    </div>
+  </header>
+  <!--/Header-->
+<div class="background1">
+
+  <section>
+    <h1 class="heading" style="color: rgb(248, 245, 245);">My Space</h1>
+    </section>
+    
+<hr class="w-1/3 mx-auto">
+    <br>
+    <br>
+  <!--content 01-->
+  <div class="min-w-screen min-h-screen bg-gray-800 flex items-center justify-center px-5 py-5">
+    <div class="w-full mx-auto rounded-lg border border-gray-700 p-8 lg:py-12 lg:px-14 text-gray-300" style="max-width: 800px" x-data="app()" x-init="addItem()">
+        <div class="mb-10">
+            <h1 class="text-2xl font-bold text-white"><i class="mdi mdi-star text-yellow-300 text-3xl leading-none align-bottom"></i> Todos</h1>
+        </div>
+        <div class="mb-10">
+            <template x-if="todos.length">
+                <ul @click.away="defocusItems()" class="-mx-1">
+                    <template x-for="(item,index) in todos">
+                        <li @click="focusItem(index)" @dblclick="openItem(index)" class="px-2 py-2 rounded transition-all flex text-md" :class="{'bg-indigo-800':item.focused,'bg-gray-700 shadow-lg px-4 py-4 my-10 -mx-2':item.open,'mb-1 cursor-pointer':!item.open}" :key="index">
+                            <div class="flex-none w-10 leading-none">
+                                <input type="checkbox" :checked="item.checked" @click="item.checked=!item.checked">
+                            </div>
+                            <div class="flex-grow max-w-full">
+                                <div class="w-full leading-none">
+                                    <h3 class="text-md leading-none truncate w-full pr-10" :class="item.title.length?'text-gray-300':'text-gray-500'" x-text="item.title||'New todo...'" x-show="!item.open"></h3>
+                                    <input type="text" x-show="item.open" class="text-md w-full bg-transparent text-gray-300 leading-none focus:outline-none mb-2" x-model="item.title" :id="`titleField${index}`" placeholder="New todo..."/>
+                                </div>
+                                <div class="w-full" x-show="item.open">
+                                    <textarea class="text-md w-full bg-transparent text-gray-300 leading-tight focus:outline-none" rows="10" x-model="item.notes" placeholder="Notes"></textarea>
+                                </div>
+                                <div class="w-full flex justify-end" x-show="item.open">
+                                    <button class="p-1 -mr-1 focus:outline-none hover:text-red-300" @click="removeItem(index)"><i class="mdi mdi-trash-can-outline"></i></button>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template x-if="!todos.length">
+                <p class="text-gray-500">No todos</p>
+            </template>
+        </div>
+        <div class="flex justify-center">
+            <button class="py-1 px-10 border border-gray-800 hover:border-gray-700 rounded leading-none focus:outline-none text-xl" @click="addItem()"><i class="mdi mdi-plus"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+function app(){
+    return {
+        todos: [],
+        focusItem: function(index) {
+            if ( !this.todos[index].open ) {
+                for(let i = 0; i < this.todos.length; i++){
+                    this.todos[i].open = false;
+                    this.todos[i].focused = i == index;
+                }
+            }
+        },
+        openItem: function(index) {
+            for(let i = 0; i < this.todos.length; i++){
+                this.todos[i].focused = false;
+                this.todos[i].open = i == index;
+            }
+            setTimeout(()=>document.getElementById(`titleField${index}`).focus(),10);
+        },
+        defocusItems: function() {
+            for(let i = 0; i < this.todos.length; i++){
+                this.todos[i].focused = false;
+                this.todos[i].open = false;
+            }
+        },
+        removeItem: function(index) {
+            this.todos = this.todos.filter((todo, i) => {
+                return i == index ? false : true;
+            });
+            setTimeout(()=>this.defocusItems(),10);
+        },
+        addItem: function() {
+            this.todos.push({
+                title: '',
+                notes: '',
+                checked: false,
+                focused: false,
+                open: false
+            });
+            setTimeout(()=>this.openItem(this.todos.length-1),10);
+        }
+    }
+}
+</script>
+
+  <!--/conten 02-->
+
+  <!-- Footer -->
+</div>
+  <footer class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+      <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+        <a href="#"><img src="Assets/header.gif" alt="logo" class="w-9 h-9 "></a>
+        <span class="ml-3 font-bold text-white text-xl">BRO-CODES</span>
+      </a>
+      <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© 2023
+        BROCODES —
+        <a href="#" class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@ANSH & @MAHARSHI</a>
+      </p>
+      <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+        <a class="text-gray-400">
+          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+            viewBox="0 0 24 24">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+          </svg>
+        </a>
+        <a class="ml-3 text-gray-400">
+          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+            viewBox="0 0 24 24">
+            <path
+              d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
+            </path>
+          </svg>
+        </a>
+        <a class="ml-3 text-gray-400">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            class="w-5 h-5" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+          </svg>
+        </a>
+        <a class="ml-3 text-gray-400">
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
+            class="w-5 h-5" viewBox="0 0 24 24">
+            <path stroke="none"
+              d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+            <circle cx="4" cy="4" r="2" stroke="none"></circle>
+          </svg>
+        </a>
+      </span>
+    </div>
+  </footer>
+  <!-- / Footer-->
+</body>
+
+</html>
